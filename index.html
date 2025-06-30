@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de Arquivo CSV</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload de Arquivo CSV</h1>
+
+        <div class="file-upload">
+            <input type="file" id="fileInput" accept=".csv" />
+        </div>
+
+        <div class="file-details" id="fileDetails">
+        </div>
+    </div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.name.endsWith('.csv')) {
+                const fileDetails = document.getElementById('fileDetails');
+                fileDetails.innerHTML = `
+                    <p>Arquivo: ${file.name}</p>
+                    <p>Tamanho: ${(file.size / 1024).toFixed(2)} KB</p>
+                    <a href="#" id="downloadBtn" download="${file.name}">Baixar o arquivo</a>
+                `;
+                document.getElementById('downloadBtn').addEventListener('click', function() {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(file);
+                    link.download = file.name;
+                    link.click();
+                });
+            } else {
+                alert("Por favor, faça upload de um arquivo CSV.");
+                document.getElementById('fileDetails').innerHTML = "";
+            }
+        });
+    </script>
+</body>
+</html>
